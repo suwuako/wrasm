@@ -13,7 +13,6 @@ FILE *inputfile = NULL;
 FILE *outputtempfile = NULL;
 FILE *outputfile = NULL;
 
-// open returns true if it fails to open a file
 static int open(FILE **f, const char *filename, const char *flags)
 {
 #ifdef __STDC_LIB_EXT1__
