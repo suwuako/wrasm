@@ -13,13 +13,18 @@ FILE *inputfile = NULL;
 FILE *outputtempfile = NULL;
 FILE *outputfile = NULL;
 
+// open returns true if it fails to open a file
 static int open(FILE **f, const char *filename, const char *flags)
 {
 #ifdef __STDC_LIB_EXT1__
-	return fopen_s(f, filename, flags));
+	return !fopen_s(f, filename, flags));
 #else
 	*f = fopen(filename, flags);
-	return !*f;
+
+	if (*f == NULL)
+		return 0;
+
+	return 1;
 #endif
 }
 
@@ -45,7 +50,7 @@ void open_files(void)
 	}
 
 	logger(DEBUG, no_error, "Opening %s", *cmdargs.inputfile->filename);
-	if (open(&inputfile, *cmdargs.inputfile->filename, "r")) {
+	if (!open(&inputfile, *cmdargs.inputfile->filename, "r")) {
 		perror("Error: ");
 		logger(ERROR, error_system, "Unable to open input file");
 		exit(EXIT_FAILURE);
@@ -58,7 +63,7 @@ void open_files(void)
 	}
 
 	logger(DEBUG, no_error, "Opening %s", *cmdargs.outputfile->filename);
-	if (open(&outputfile, *cmdargs.outputfile->filename, "wb")) {
+	if (!open(&outputfile, *cmdargs.outputfile->filename, "wb")) {
 		perror("Error: ");
 		logger(ERROR, error_system, "Unable to open output file");
 		exit(EXIT_FAILURE);
