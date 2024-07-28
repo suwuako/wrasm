@@ -24,6 +24,7 @@ size_t getl(char **lineptr, size_t *n, FILE *stream)
 	size_t size;
 	int c;
 
+	// converts -1 to size_t (unsigned int) for a sentinal value
 	if (lineptr == NULL)
 		return (size_t)-1;
 	if (stream == NULL)
